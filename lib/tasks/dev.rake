@@ -20,5 +20,15 @@ namespace :dev do
     end
     puts "Success!"
 
+    puts "Loading data phones into database"
+    Contact.all.each do |contact|
+      Random.rand(5).times do |i|
+        contact.phones.create!(
+          number:Faker::PhoneNumber.cell_phone
+        )
+        contact.save!
+      end
+    end   
+    puts "Success!"
   end
 end

@@ -2,6 +2,8 @@ class Contact < ApplicationRecord
     belongs_to :kind
     has_many :phones
 
+    accepts_nested_attributes_for :phones
+
     def kind_description
         self.kind.description
     end
@@ -11,8 +13,8 @@ class Contact < ApplicationRecord
             name: self.name,
             email: self.email,
             birthday: (I18n.l(self.birthday) unless self.birthday.blank?),
-            created_at: (I18n.l(self.created_at)),
-            updated_at: (I18n.l(self.updated_at)),
+            created_at: self.created_at,
+            updated_at: self.updated_at,
             kind: self.kind_description
         }
     end

@@ -27,7 +27,7 @@ class ContactsController < ApplicationController
   # PATCH/PUT /contacts/1
   def update
     if @contact.update(contact_params)
-      render json: @contact
+      render json: @contact, include: [:kind, :phones]
     else
       render json: @contact.errors, status: :unprocessable_entity
     end
@@ -48,7 +48,7 @@ class ContactsController < ApplicationController
     def contact_params
       params.require(:contact).permit(
         :name, :email, :birthday, :kind_id,
-        phones_attributes: [:number]
+        phones_attributes: [:id, :number, :_destroy]
       )
     end
 end

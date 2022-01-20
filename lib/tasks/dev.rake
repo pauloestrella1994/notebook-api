@@ -1,6 +1,9 @@
 namespace :dev do
   desc "Configure the developer enviroment"
   task setup: :environment do
+    #calling rails dev:setup will apply this commands too
+    %x(rails db:drop db:create db:migrate) 
+
     puts "Loading data kinds into database"
 
     kinds = %w(Friend Commercial Known)
@@ -29,6 +32,16 @@ namespace :dev do
         contact.save!
       end
     end   
+    puts "Success!"
+
+    puts "Loading data address into database"
+    Contact.all.each do |contact|
+        Address.create(
+          street: Faker::Address.street_address,
+          city: Faker::Address.city,
+          contact: contact
+        )
+      end
     puts "Success!"
   end
 end
